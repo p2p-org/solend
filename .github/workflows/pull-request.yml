@@ -161,6 +161,6 @@ jobs:
         run: ./coverage.sh token-lending
 
       - name: Codecov
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457 # v3.1.6
         with:
           file: target/cov/cobertura.xml

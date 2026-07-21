@@ -22,14 +22,14 @@ jobs:
   rustfmt:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2
 
       - name: Set env vars
         run: |
           source ci/rust-version.sh
           echo "RUST_STABLE=$rust_stable" >> $GITHUB_ENV
 
-      - uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: ${{ env.RUST_STABLE }}
           override: true
@@ -37,7 +37,7 @@ jobs:
           components: rustfmt
 
       - name: Run fmt
-        uses: actions-rs/cargo@v1
+        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1
         with:
           command: fmt
           args: --all -- --check
@@ -45,21 +45,21 @@ jobs:
   clippy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2
 
       - name: Set env vars
         run: |
           source ci/rust-version.sh
           echo "RUST_NIGHTLY=$rust_nightly" >> $GITHUB_ENV
 
-      - uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: ${{ env.RUST_NIGHTLY }}
           override: true
           profile: minimal
           components: clippy
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@8492260343ad570701412c2f464a5877dc76bace # v2
         with:
           path: |
             ~/.cargo/registry
@@ -73,7 +73,7 @@ jobs:
         run: ./ci/install-build-deps.sh
 
       - name: Run clippy
-        uses: actions-rs/cargo@v1
+        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1
         with:
           command: clippy
           args: -Zunstable-options --workspace --all-targets -- --deny=warnings
@@ -81,7 +81,7 @@ jobs:
   cargo-build-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2
 
       - name: Set env vars
         run: |
@@ -90,13 +90,13 @@ jobs:
           source ci/solana-version.sh
           echo "SOLANA_VERSION=$solana_version" >> $GITHUB_ENV
 
-      - uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: ${{ env.RUST_STABLE }}
           override: true
           profile: minimal
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@8492260343ad570701412c2f464a5877dc76bace # v2
         with:
           path: |
             ~/.cargo/registry
@@ -104,13 +104,13 @@ jobs:
             # target # Removed due to build dependency caching conflicts
           key: cargo-build-${{ hashFiles('**/Cargo.lock') }}-${{ env.RUST_STABLE}}
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@8492260343ad570701412c2f464a5877dc76bace # v2
         with:
           path: |
             ~/.cargo/bin/rustfilt
           key: cargo-bpf-bins-${{ runner.os }}
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@8492260343ad570701412c2f464a5877dc76bace # v2
         with:
           path: |
             ~/.cache
@@ -128,7 +128,7 @@ jobs:
   cargo-coverage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2
 
       - name: Set env vars
         run: |
@@ -137,13 +137,13 @@ jobs:
           source ci/solana-version.sh
           echo "SOLANA_VERSION=$solana_version" >> $GITHUB_ENV
 
-      - uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: ${{ env.RUST_NIGHTLY }}
           override: true
           profile: minimal
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@8492260343ad570701412c2f464a5877dc76bace # v2
         with:
           path: |
             ~/.cargo/registry
@@ -161,6 +161,6 @@ jobs:
         run: ./coverage.sh token-lending
 
       - name: Codecov
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@81cd2dc8148241f03f5839d295e000b8f761e378 # v3.1.0
         with:
           file: target/cov/cobertura.xml
